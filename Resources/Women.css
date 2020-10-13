@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css?family=Baloo+Bhaijaan|Vesper+Libre&display=swap');
+
+*{
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	text-decoration: none;
+	color: inherit;
+
+}
+
+body{
+	background: url(https://images6.alphacoders.com/507/thumb-1920-507281.jpg);
+	background-size: cover;
+	background-attachment: fixed;
+	background-position: center center;
+}
+#wrapper{
+	height: 100vh;
+	width: 80vw;
+	margin: auto;
+	
+}
+#emptyspace{
+	height: 25vh;
+	background: black;
+}
+header{
+	background-color: white;
+	
+	width: 80vw;
+	
+	border-bottom: 2px solid black;
+	
+	
+}
+
+
+#logo{
+	height: 100px;
+	width: 100px;
+	
+	padding-left: 5px;
+	
+}
+#wrapper nav ul li{
+	display: inline-block;
+	font-family: 'Baloo Bhaijaan', cursive;
+	text-transform: uppercase;
+	float: right;
+	margin-right: 50px;
+	padding: 35px 10px 10px 10px;
+	font-size: 18pt;
+	transition: 0.3s;
+
+}
+nav ul li:hover{
+	border-bottom-style: groove;
+	border-bottom: 1px solid black;
+  color: gold;
+}
+#headr{
+	background-color: black;
+	font-family: 'Baloo Bhaijaan', cursive;
+	color: white;
+	height: min-content;
+	font-size: 20pt;
+	text-align: center;
+}
+#leather{
+	background: white;
+	height: min-content;
+	text-align: center;
+	
+	
+}
+#leather div{
+	text-align: center;
+	display: inline-block;
+	width: 30%;
+	padding: 20px 10px 20px 10px;
+
+}
+#leather img{
+	height: 200px;
+	width: 280px;
+	margin: 20px 10px 20px 10px;
+	border: 2px solid black;
+	transition: 1s;
+}
+#leather h3{
+	font-family: 'Baloo Bhaijaan', cursive;
+	font-size: 30px;
+	border-bottom: 1px solid black;
+}
+#leather p{
+	font-family: 'Baloo Bhaijaan', cursive;
+	font-size: 40px;
+	margin-bottom: 10px;
+	font-weight: bold;
+	
+	height: 100px;
+}
+#btn2{
+	font-family: 'Baloo Bhaijaan', cursive;
+	text-transform: uppercase;
+	border: 2px solid black;
+	
+	border-radius: 50px;
+	background-color: black;
+  	color: white;
+  	padding: 10px 30px;
+  	text-align: center;
+  	font-size: 14px;
+  	margin: 4px 2px;
+  	transition: 0.3s;
+
+}
+#btn2:hover {
+  background-color: white;
+  color: black;
+}
+#leather img:hover{
+	transition: 1s;
+	border: 2px solid grey;
+	transform: rotate(10deg);
+}
+#end{
+	height: 7vh;
+	background: black;
+	color: white;
+}
+#end ul li{
+	float: right;
+	display: inline-block;
+	font-size: 25px;
+	margin-right: 20px;
+	padding: 8px 10px;
+}
+#end p{
+	float: left;
+	font-family: 'Baloo Bhaijaan', cursive;
+	text-transform: uppercase;
+	padding: 10px 10px;
+	font-size: 16px;
+}
+#end ul li:hover{
+	color: gold;
+}

@@ -1,0 +1,100 @@
+﻿@model NikeStore.ViewModels.Admin.AddModelVM
+
+@{
+    ViewBag.Title = "AddModel";
+    Layout = "~/Views/Shared/_Site.cshtml";
+}
+
+<h2>AddModel</h2>
+@using (Html.BeginForm("AddModel", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div style="clear:both">
+        <div style="float:left">
+            @Html.LabelFor(m => m.Image)
+        </div>
+        <div style="float:left">
+            @Html.TextBoxFor(m => m.Image, new { type = "file", name = "Image" })
+        </div>
+        <div style="float:left">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div style="clear:both">
+        <div style="float:left">
+            @Html.LabelFor(m => m.Name)
+        </div>
+        <div style="float:left">
+            @Html.TextBoxFor(m => m.Name)
+        </div>
+        <div style="float:left">
+            @Html.ValidationMessageFor(m => m.Name)
+        </div>
+    </div>
+    <div style="clear:both">
+        <div style="float:left">
+            @Html.LabelFor(m => m.Price)
+        </div>
+        <div style="float:left">
+            @Html.TextBoxFor(m => m.Price)
+        </div>
+        <div style="float:left">
+            @Html.ValidationMessageFor(m => m.Price)
+        </div>
+    </div>
+    <div style="clear:both">
+        <div style="float:left">
+            @Html.LabelFor(m => m.Size)
+        </div>
+        <div style="float:left">
+            @Html.TextBoxFor(m => m.Size)
+        </div>
+        <div style="float:left">
+            @Html.ValidationMessageFor(m => m.Size)
+        </div>
+    </div>
+    <div style="clear:both">
+        @for (int i = 0; i < Model.Tags.Count; i++)
+        {
+            @Html.CheckBoxFor(m => m.Tags[i].SetTag)
+            <label>@Model.Tags[i].Name</label>
+            @Html.HiddenFor(m => m.Tags[i].Id)
+            @Html.HiddenFor(m => m.Tags[i].Name)
+            <br />
+        }
+    </div>
+    <div style="clear:both;">
+        <input type="submit" value="Add" />
+    </div>
+
+    <div style="clear:both" id="AddButton">
+        <input type="button"
+               value="Add Tag"
+               onclick="OpenAddTag()" />
+    </div>
+
+    <script>
+        function OpenAddTag() {
+            document.getElementById("AddTag").style.display = "block";
+            document.getElementById("AddButton").style.display = "none";
+        }
+    </script>
+}
+@using (Html.BeginForm("AddTag", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div style="clear:both;display:none" id="AddTag">
+        <div style="float:left">
+            @Html.LabelFor(m => m.AddTag)
+        </div>
+        <div style="float:left">
+            @Html.TextBoxFor(m => m.AddTag)
+            @Model.Name
+        </div>
+        <div style="float:left">
+            @Html.ValidationMessageFor(m => m.AddTag)
+        </div>
+
+        <div style="clear:both;">
+            <input type="submit" value="Add Tag" />
+        </div>
+    </div>
+}

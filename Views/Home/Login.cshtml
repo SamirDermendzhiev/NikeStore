@@ -1,0 +1,60 @@
+﻿@model NikeStore.ViewModels.Home.LoginVM
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Site.cshtml";
+}
+
+@*<h2>Login</h2>
+
+    <form action="/Home/Login" method="post">
+        <div style="clear:both">
+            <div style="float:left">
+                @Html.LabelFor(m => m.Username)
+            </div>
+            <div style="float:left">
+                @Html.TextBoxFor(m => m.Username)
+            </div>
+            <div style="float:left">
+                @Html.ValidationMessageFor(m => m.Username)
+            </div>
+        </div>
+        <div style="clear:both">
+            <div style="float:left">
+                @Html.LabelFor(m => m.Password)
+            </div>
+            <div style="float:left">
+                @Html.PasswordFor(m => m.Password)
+            </div>
+            <div style="float:left">
+                @Html.ValidationMessageFor(m => m.Password)
+            </div>
+        </div>
+
+        <div style="clear:both;">
+            <input type="submit" value="Login" />
+        </div>
+    </form>*@
+
+@section Styles
+{
+    <link rel="stylesheet" type="text/css" href="~/Resources/Sign.css">
+}
+<section id="login">
+    <div class="loginbox">
+        <img src="~/Resources/Profile.png" class="avatar">
+        <h1>Sign up</h1>
+        <form action="/Home/Login" method="post">
+            <p>Username</p>
+            <input type="text" name="Username" id="Username" placeholder="Enter Username">
+            @Html.ValidationMessageFor(m => m.Username)
+            <p>Password</p>
+            <input type="Password" name="Password" id="Password" placeholder="Enter Password">
+            @Html.ValidationMessageFor(m => m.Password)
+            <input type="submit" name="" value="Login">
+            <br />
+            <h3 style="text-align:center">OR</h3>
+            <input type="button" value="Register" onclick="location.href='@Url.Action("Register", "Home")'" />
+        </form>
+    </div>
+</section>

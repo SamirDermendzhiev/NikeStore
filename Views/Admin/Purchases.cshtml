@@ -1,0 +1,37 @@
+﻿@model NikeStore.ViewModels.Admin.PurchasesVM
+
+@{
+    ViewBag.Title = "Purchases";
+    Layout = "~/Views/Shared/_Site.cshtml";
+}
+
+<h2>Purchases</h2>
+<table>
+    <tr>
+        <td>Id</td>
+        <td>Price</td>
+        <td>Client</td>
+        <td>Addres</td>
+        <td>Date</td>
+    </tr>
+    @foreach (var order in Model.orders)
+    {
+    <tr>
+        <td>
+            @order.OrderID
+        </td>
+        <td>
+            @order.Price
+        </td>
+        <td>
+            @order.Client
+        </td>
+        <td>
+            @order.Addres
+        </td>
+        <td>
+            @order.Date
+        </td>
+    </tr>
+    }
+</table>

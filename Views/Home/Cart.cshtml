@@ -1,0 +1,89 @@
+﻿@model NikeStore.ViewModels.Home.CartVM
+
+@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Shared/_Site.cshtml";
+}
+@section Styles
+{
+    <link rel="stylesheet" type="text/css" href="~/Resources/cart.css">
+}
+
+<div id="order" style="color:white">
+    <h1>Your Order</h1>
+    <table>
+        <tr>
+            <td>Name:</td>
+            <td>Price:</td>
+        </tr>
+        @if (Model.Items != null)
+        {
+            foreach (var shoe in Model.Items)
+            {
+                <tr>
+                    <td >@shoe.Name</td>
+                    <td>@shoe.Price €</td>
+                </tr>
+            }
+        }
+        <tr>
+            <td></td>
+            <td colspan="1" id="float"></td>
+        </tr>
+    </table>
+    <a id="submit" href="@Url.Action("CashOut","Home",Model)">Make order</a>
+</div>
+
+
+<style>
+    #order{
+	background: rgba(0,0,0,0.7);
+	color: white;
+	width: 320px;
+	height: 400px;
+	top: 50%;
+	left: 50%;
+	position: absolute;
+	transform: translate(-50%,-50%);
+	box-sizing: border-box;
+	font-family: 'Baloo Bhaijaan', cursive;
+	padding: 70px 30px;
+	margin-top: 10px;
+}
+#order h1{
+	font-family: 'Baloo Bhaijaan', cursive;
+	font-size: 40px;
+	text-align: center;
+}
+
+#submit{
+	width: 100%;
+	margin-bottom: 20px;
+}
+#submit
+{
+    padding: 10px;
+	border: none;
+	outline: none;
+	height: 40px;
+	background: #fb2525;
+	color: #fff;
+	font-size: 18px;
+	border-radius: 20px;
+}
+#submit:hover{
+	cursor: pointer;
+	background: gold;
+	color: black;
+
+}
+#order table{
+	border: 2px white solid;
+	text-align: center;
+	margin-left: 10px;
+	margin-bottom: 30px;
+}
+#order td{
+	padding: 10px 10px;
+}
+</style>

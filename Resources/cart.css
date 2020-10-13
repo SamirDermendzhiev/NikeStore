@@ -1,0 +1,50 @@
+
+#order{
+	background: rgba(0,0,0,0.7);
+	color: white;
+	width: 320px;
+	height: 400px;
+	top: 50%;
+	left: 50%;
+	position: absolute;
+	transform: translate(-50%,-50%);
+	box-sizing: border-box;
+	font-family: 'Baloo Bhaijaan', cursive;
+	padding: 70px 30px;
+	margin-top: 10px;
+}
+#order h1{
+	font-family: 'Baloo Bhaijaan', cursive;
+	font-size: 40px;
+	text-align: center;
+}
+
+#order input{
+	width: 100%;
+	margin-bottom: 20px;
+}
+#order input[type="submit"]
+{
+	border: none;
+	outline: none;
+	height: 40px;
+	background: #fb2525;
+	color: #fff;
+	font-size: 18px;
+	border-radius: 20px;
+}
+#order input[type="submit"]:hover{
+	cursor: pointer;
+	background: gold;
+	color: black;
+
+}
+#order table{
+	border: 2px white solid;
+	text-align: center;
+	margin-left: 10px;
+	margin-bottom: 30px;
+}
+#order td{
+	padding: 10px 10px;
+}
