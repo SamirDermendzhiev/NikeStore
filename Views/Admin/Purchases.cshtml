@@ -4,7 +4,10 @@
     ViewBag.Title = "Purchases";
     Layout = "~/Views/Shared/_Site.cshtml";
 }
-
+@section Styles
+{
+    <link rel="stylesheet" type="text/css" href="~/Resources/Women.css">
+}
 <h2>Purchases</h2>
 <table>
     <tr>
@@ -16,22 +19,22 @@
     </tr>
     @foreach (var order in Model.orders)
     {
-    <tr>
-        <td>
-            @order.OrderID
-        </td>
-        <td>
-            @order.Price
-        </td>
-        <td>
-            @order.Client
-        </td>
-        <td>
-            @order.Addres
-        </td>
-        <td>
-            @order.Date
-        </td>
-    </tr>
+        <tr>
+            <td>
+                @order.OrderID
+            </td>
+            <td>
+                @order.Price
+            </td>
+            <td>
+                @order.Client
+            </td>
+            <td>
+                @order.Addres
+            </td>
+            <td>
+                @order.Date
+            </td>
+        </tr>
     }
 </table>

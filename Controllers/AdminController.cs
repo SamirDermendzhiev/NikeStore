@@ -21,11 +21,18 @@ namespace NikeStore.Controllers
         [HttpGet]
         public ActionResult AddModel()
         {
-            AddModelVM model = new AddModelVM();
-            NikeContext context = new NikeContext();
+            if (Session["Admin"] != null)
+            {
+                AddModelVM model = new AddModelVM();
+                NikeContext context = new NikeContext();
 
-            model.Tags = context.Tags.ToList();
-            return View(model);
+                model.Tags = context.Tags.ToList();
+                return View(model);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
         [HttpPost]
         public ActionResult AddModel(AddModelVM model)
@@ -88,26 +95,36 @@ namespace NikeStore.Controllers
         [HttpGet]
         public ActionResult Edit(int? id)
         {
-            NikeContext context = new NikeContext();
-            Shoe shoe = id == null ? new Shoe() :
-                               context.Shoes.Where(i => i.Id == id.Value).FirstOrDefault();
 
-            if (shoe == null)
-                return RedirectToAction("Index", "Home");
-            EditVM model = new EditVM();
-            model.Name = shoe.Name;
-            model.Price = shoe.Price;
-            model.Size = shoe.Size;
-            model.Tags = context.Tags.ToList();
-            model.ImageName = shoe.Picture;
-            foreach (Tag tag in model.Tags)
+            if (Session["Admin"] != null)
             {
-                if (context.ShoeTags.Where(t => t.Shoe_Id == id.Value && t.Tag_Id == tag.Id).FirstOrDefault() != null)
+                
+            
+                NikeContext context = new NikeContext();
+                Shoe shoe = id == null ? new Shoe() :
+                                   context.Shoes.Where(i => i.Id == id.Value).FirstOrDefault();
+
+                if (shoe == null)
+                    return RedirectToAction("Index", "Home");
+                EditVM model = new EditVM();
+                model.Name = shoe.Name;
+                model.Price = shoe.Price;
+                model.Size = shoe.Size;
+                model.Tags = context.Tags.ToList();
+                model.ImageName = shoe.Picture;
+                foreach (Tag tag in model.Tags)
                 {
-                    tag.SetTag = true;
+                    if (context.ShoeTags.Where(t => t.Shoe_Id == id.Value && t.Tag_Id == tag.Id).FirstOrDefault() != null)
+                    {
+                        tag.SetTag = true;
+                    }
                 }
+                return View(model);
             }
-            return View(model);
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
         [HttpPost]
         public ActionResult Edit(EditVM model)
@@ -171,22 +188,38 @@ namespace NikeStore.Controllers
         }
         public ActionResult Delete(int Id)
         {
-            NikeContext context = new NikeContext();
+            if (Session["Admin"] != null)
+            {
 
-            Shoe item = context.Shoes.Where(u => u.Id == Id)
-                                     .FirstOrDefault();
+            
+                NikeContext context = new NikeContext();
 
-            context.Shoes.Remove(item);
-            context.SaveChanges();
+                Shoe item = context.Shoes.Where(u => u.Id == Id)
+                                         .FirstOrDefault();
 
-            return RedirectToAction("Index", "Home");
+                context.Shoes.Remove(item);
+                context.SaveChanges();
+
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
         public ActionResult Purchases()
         {
-            NikeContext context = new NikeContext();
-            PurchasesVM model = new PurchasesVM();
-            model.orders = context.Orders.ToList();
-            return View(model);
+            if (Session["Admin"] != null)
+            {
+                NikeContext context = new NikeContext();
+                PurchasesVM model = new PurchasesVM();
+                model.orders = context.Orders.ToList();
+                return View(model);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }    
         }
     }
 }

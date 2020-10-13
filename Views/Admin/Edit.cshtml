@@ -4,7 +4,10 @@
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Site.cshtml";
 }
-
+@section Styles
+{
+    <link rel="stylesheet" type="text/css" href="~/Resources/Women.css">
+}
 <h2>Edit</h2>
 
 <img src="~/Images/@Model.ImageName" id="image_preview" alt="Preview" />
