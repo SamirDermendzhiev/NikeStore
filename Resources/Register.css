@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css?family=Baloo+Bhaijaan|Vesper+Libre&display=swap');
+
+*{
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	text-decoration: none;
+	color: inherit;
+
+}
+
+body{
+	background: url(https://images6.alphacoders.com/507/thumb-1920-507281.jpg);
+	background-size: cover;
+	background-attachment: fixed;
+	background-position: center center;
+}
+#wrapper{
+	height: 100vh;
+	width: 80vw;
+	margin: auto;
+	
+}
+#emptyspace{
+	height: 25vh;
+	background: black;
+}
+header{
+	background: transparent;
+	width: 80vw;
+	color: white;
+	}
+
+
+#logo{
+	height: 100px;
+	width: 100px;
+	
+	padding-left: 5px;
+	
+}
+#wrapper nav ul li{
+	display: inline-block;
+	font-family: 'Baloo Bhaijaan', cursive;
+	text-transform: uppercase;
+	float: right;
+	margin-right: 50px;
+	padding: 35px 10px 10px 10px;
+	font-size: 18pt;
+	transition: 0.3s;
+
+}
+nav ul li:hover{
+	border-bottom-style: groove;
+	border-bottom: 1px solid black;
+  color: gold;
+}
+.loginbox{
+	width: 320px;
+	height: 862px;
+	background: #000;
+	color: #fff;
+	top: 50%;
+	left: 50%;
+	position: absolute;
+	transform: translate(-50%,-50%);
+	 box-sizing: border-box;
+	 font-family: 'Baloo Bhaijaan', cursive;
+	 padding: 70px 30px;
+	 margin-top: 240px;
+	 margin-bottom: 100px;
+}
+.avatar{
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	position: absolute;
+	top: -7%;
+	left: 34%;
+	border: solid 2px black
+}
+h1{
+	margin: 0;
+	padding: 0 0 20px;
+	text-align: center;
+	font-size: 22px;
+}
+.loginbox p{
+	margin: 0;
+	padding: 0;
+	font-weight: bold;
+}
+.loginbox input{
+	width: 100%;
+	margin-bottom: 20px;
+}
+.loginbox input[type="text"], input[type="password"]
+{
+	border: none;
+	border-bottom: 1px solid #fff;
+	background: transparent;
+	outline: none;
+	height: 40px;
+	color: #fff;
+	font-size: 16px;
+}
+.loginbox input[type="submit"],input[type="button"]
+{
+	border: none;
+	outline: none;
+	height: 40px;
+	background: #fb2525;
+	color: #fff;
+	font-size: 18px;
+	border-radius: 20px;
+}
+.loginbox input[type="submit"]:hover,input[type="button"]:hover
+{
+	cursor: pointer;
+	background: gold;
+	color: black;
+
+}

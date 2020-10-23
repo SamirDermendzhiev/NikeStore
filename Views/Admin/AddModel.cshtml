@@ -1,0 +1,143 @@
+﻿@model NikeStore.ViewModels.Admin.AddModelVM
+
+@{
+    ViewBag.Title = "AddModel";
+    Layout = "~/Views/Shared/_Site.cshtml";
+}
+@section Styles
+{
+    <link rel="stylesheet" type="text/css" href="~/Resources/Women.css">
+}
+
+<h2>Add New Model</h2>
+@using (Html.BeginForm("AddModel", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+<div id="container">
+    <div class="field" style="clear:both">
+        <div>
+            @Html.LabelFor(m => m.Image)
+        </div>
+        <div  id="forImage">
+            @Html.TextBoxFor(m => m.Image, new { type = "file", name = "Image" })
+        </div>
+        <div>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="field" style="clear:both">
+        <div>
+            @Html.LabelFor(m => m.Name)
+        </div>
+        <div>
+            @Html.TextBoxFor(m => m.Name)
+        </div>
+        <div>
+            @Html.ValidationMessageFor(m => m.Name)
+        </div>
+    </div>
+    <div class="field" style="clear:both">
+        <div>
+            @Html.LabelFor(m => m.Price)
+        </div>
+        <div>
+            @Html.TextBoxFor(m => m.Price)
+        </div>
+        <div>
+            @Html.ValidationMessageFor(m => m.Price)
+        </div>
+    </div>
+    <div class="field" style="clear:both">
+        <div>
+            @Html.LabelFor(m => m.Size)
+        </div>
+        <div>
+            @Html.TextBoxFor(m => m.Size)
+        </div>
+        <div>
+            @Html.ValidationMessageFor(m => m.Size)
+        </div>
+    </div>
+    <div class="field" style="clear:both;">
+        <input class="button" type="submit" value="Add" />
+    </div>
+    <div class="field" style="clear:both">
+        @for (int i = 0; i < Model.Tags.Count; i++)
+        {
+            @Html.CheckBoxFor(m => m.Tags[i].SetTag)
+            <label>@Model.Tags[i].Name</label>
+            @Html.HiddenFor(m => m.Tags[i].Id)
+            @Html.HiddenFor(m => m.Tags[i].Name)
+            <br />
+        }
+    </div>
+
+
+    <div class="field" style="clear:both" id="AddButton">
+        <input class="button" type="button"
+               value="Add Tag"
+               onclick="OpenAddTag()" />
+    </div>
+</div>
+    <script>
+        function OpenAddTag() {
+            document.getElementById("AddTag").style.display = "block";
+            document.getElementById("AddButton").style.display = "none";
+        }
+    </script>
+}
+@using (Html.BeginForm("AddTag", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div id="container">
+        <div class="field" style="clear:both;display:none" id="AddTag">
+            <div>
+                @Html.LabelFor(m => m.AddTag)
+            </div>
+            <div>
+                @Html.TextBoxFor(m => m.AddTag)
+                @Model.Name
+            </div>
+            <div>
+                @Html.ValidationMessageFor(m => m.AddTag)
+            </div>
+
+            <div  style="clear:both;">
+                <input class="button" type="submit" value="Add Tag" />
+            </div>
+        </div>
+    </div>
+}
+
+
+<style>
+    h2{
+         font-family: 'Baloo Bhaijaan', cursive;
+         background-color: rgba(0,0,0,0.7);
+         color:white;
+         text-align:center;
+         width:25%;
+         margin:auto;
+    }
+    input{
+        color:black;
+    }
+    .button{
+        background-color:black;
+        color:white;
+    }
+    .field{
+        color:white;
+        text-align:center;
+        margin-bottom:10px;
+        font-family: 'Baloo Bhaijaan', cursive;
+    }
+    #container{
+        background-color:rgba(0,0,0,0.7);
+        width: 50%;
+        margin:auto;
+        font-family: 'Baloo Bhaijaan', cursive;
+        padding:20px 0;
+    }
+    #forImage input{
+        color:white
+    }
+</style>

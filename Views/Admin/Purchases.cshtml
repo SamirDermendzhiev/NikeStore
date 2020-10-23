@@ -1,0 +1,70 @@
+﻿@model NikeStore.ViewModels.Admin.PurchasesVM
+
+@{
+    ViewBag.Title = "Purchases";
+    Layout = "~/Views/Shared/_Site.cshtml";
+}
+@section Styles
+{
+
+    <link rel="stylesheet" type="text/css" href="~/Resources/Women.css">
+}
+<h2>Purchases</h2>
+<div id="order" style="color:white">
+    <table>
+        <tr>
+            <td>Id</td>
+            <td>Price</td>
+            <td>Client</td>
+            <td>Addres</td>
+            <td>Date</td>
+        </tr>
+        @foreach (var order in Model.orders)
+        {
+            <tr>
+                <td>
+                    @order.OrderID
+                </td>
+                <td>
+                    @order.Price
+                </td>
+                <td>
+                    @order.Client
+                </td>
+                <td>
+                    @order.Addres
+                </td>
+                <td>
+                    @order.Date
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+<style>
+      h2{
+          font-family: 'Baloo Bhaijaan', cursive;
+          background-color: rgba(0,0,0,0.7);
+          color:white;
+          text-align:center;
+          width:25%;
+          margin:auto;
+      }
+      #order{
+          margin-top:150px;
+          background-color: rgba(0,0,0,0.7);
+          font-family: 'Baloo Bhaijaan', cursive;
+          width:50%;
+          margin:auto;
+          padding:20px;
+      }
+      #order table{
+	      border: 2px white solid;
+	      text-align: center;
+	      margin-bottom: 30px;
+          width:100%;
+      }
+      #order td{
+	      padding: 10px 10px;
+      }
+</style>

@@ -1,0 +1,121 @@
+﻿@model NikeStore.ViewModels.Home.IndexVM
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Site.cshtml";
+}
+@section Styles
+{
+    <link rel="stylesheet" type="text/css" href="~/Resources/Women.css">
+}
+
+@*@foreach (var Shoe in Model.Shoes)
+    {
+        int first = 0;
+        <div style="border: 0;padding: 20px;margin:0;text-align:center;width: 33%;display:inline-block;box-sizing: border-box;">
+            <img style="width:100%" src="~/Images/@Shoe.Picture" alt="Shoe title" />
+            <h1>@Shoe.Name</h1>
+            <h2>@Shoe.Price $</h2>
+            <a href="@Url.Action("AddToCart","Home",Shoe)">Add to cart</a><br />
+            @foreach (var ShoeTag in Model.Shoetags)
+            {
+                if (ShoeTag.Shoe_Id == Shoe.Id)
+                {
+                    foreach (var Tag in Model.Tags)
+                    {
+                        if (Tag.Id == ShoeTag.Tag_Id)
+                        {
+
+                            if (first == 0)
+                            {
+                                <a href="#">@Tag.Name</a>
+                                first++;
+                            }
+                            else
+                            {
+                                <span>|</span> <a href="#">@Tag.Name</a>
+                            }
+
+                        }
+                    }
+                }
+            }
+        </div>
+    }*@
+
+
+
+<article id="leather">
+    <p>
+        @for (int i = 1; i <= Model.PageCount; i++)
+        {
+            if (i == Model.Page)
+            {
+                <a href="/Home/Index?Page=@i&ItemsPerPage=@Model.ItemsPerPage" style="text-decoration: underline;">@i</a>
+            }
+            else
+            {
+                <a href="/Home/Index?Page=@i&ItemsPerPage=@Model.ItemsPerPage">@i</a>
+            }
+        }
+        <script>
+            function ItemsPerPage() {
+
+                let ItemsPerPage = document.getElementById("ItemsPerPage");
+                let selectedValue = ItemsPerPage.options[ItemsPerPage.selectedIndex].value;
+
+                document.location.href = "/Home/Index?ItemsPerPage=" + selectedValue;
+            }
+        </script>
+        <select id="ItemsPerPage" onchange="ItemsPerPage()">
+            <option value="3" @(Model.ItemsPerPage == 3 ? "selected" : "")>3</option>
+            <option value="6" @(Model.ItemsPerPage == 6 ? "selected" : "")>6</option>
+            <option value="9" @(Model.ItemsPerPage == 9 ? "selected" : "")>9</option>
+        </select>
+    </p>
+    <br />
+    @foreach (var Shoe in Model.Shoes)
+    {
+        int first = 0;
+        <div>
+            <img src="~/Images/@Shoe.Picture" style="object-fit:cover">
+            <h3>@Shoe.Name</h3>
+            <p>@Shoe.Price €</p>
+            <p style="font-size: 25px;">
+                @foreach (var ShoeTag in Model.Shoetags)
+                {
+                    if (ShoeTag.Shoe_Id == Shoe.Id)
+                    {
+                        foreach (var Tag in Model.Tags)
+                        {
+                            if (Tag.Id == ShoeTag.Tag_Id)
+                            {
+
+                                if (first == 0)
+                                {
+                                    <a href="#">@Tag.Name</a>
+                                    first++;
+                                }
+                                else
+                                {
+                                    <span>|</span> <a href="@Url.Action("AddToCart","Home",Shoe)">@Tag.Name</a>
+                                }
+
+                            }
+                        }
+                    }
+                }
+                @if (first == 0)
+                {
+                    <a href="#">None</a>
+                }
+            </p>
+            <br />
+            <a href="@Url.Action("AddToCart","Home",Shoe)" id="btn2">BUY</a>
+            @if (Session["Admin"] != null)
+            {
+                <p style=" font-size: 40px; margin-top: 15px;"><a href="/Admin/Edit?id=@Shoe.Id">Edit</a> | <a href="/Admin/Delete?Id=@Shoe.Id" onclick="return confirm('Delete item?')">Delete</a></p>
+            }
+        </div>
+    }
+</article>

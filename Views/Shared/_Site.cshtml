@@ -1,0 +1,100 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+@*<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Nike</title>
+</head>
+<body>
+    <div>
+        @if (Session["Username"] != null)
+        {
+            <div style="float: right;clear:both">
+                <h5>
+                    Hello, @Session["Username"]
+                </h5>
+            </div>
+        }
+        <div style="float: right;clear:both">
+            <a href="/Home/Cart">Cart @if (Session["Count"] != null) {  <span>(</span>@Session["Count"]<span>)</span>}
+            </a>
+        </div>
+        <div>
+            <h1>NIKE</h1>
+        </div>
+        <div>
+            <ul>
+                <li><a href="/Home/Index">Home</a></li>
+                @if (Session["LoggedUser"] == null)
+                {
+                    <li><a href="/Home/Login">Login</a></li>
+                    <li><a href="/Home/Register">Register</a></li>
+                }
+                else
+                {
+                    <li><a href="/Home/Logout">Logout</a></li>
+                }
+                @if (Session["Admin"] != null)
+                {
+                    <li><a href="/Admin/AddModel">Add model</a></li>
+                }
+            </ul>
+        </div>
+        <div style="clear:both;">
+            @RenderBody()
+        </div>
+    </div>
+</body>
+</html>*@
+<html>
+<head>
+    <!-- font-family: 'Baloo Bhaijaan', cursive;
+    font-family: 'Vesper Libre', serif; -->
+    @RenderSection("Styles", required: false)
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSite Project 2k19</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div id="wrapper">
+        <header>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="/Home/Cart">
+                            Cart @if (Session["Count"] != null)
+                            {<span>(</span>@Session["Count"]<span>)</span>}<i class="fas fa-shopping-cart"></i>
+                        </a>
+                    </li>
+                    @if (Session["LoggedUser"] == null)
+                    {
+                        <li><a href="/Home/Register">Register</a></li>
+                        <li><a href="/Home/Login">Login</a></li>
+                    }
+                    else
+                    {
+                        <li><a href="/Home/Logout">Logout</a></li>
+                    }
+                    @if (Session["Admin"] != null)
+                    {
+                        <li><a href="/Admin/AddModel">Add model</a></li>
+                        <li><a href="/Admin/Purchases">Purchases</a></li>
+                    }
+                    <li><a href="/Home/Index">Home</a></li>
+                </ul>
+                <img src="~/Resources/4176289_thumb.png" id="logo">
+            </nav>
+
+        </header>
+        <div style="clear:both">
+            @RenderBody()
+        </div>
+    </div>
+</body>      
+</html>
