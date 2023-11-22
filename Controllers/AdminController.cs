@@ -1,18 +1,22 @@
-﻿using NikeStore.Entities;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using NikeStore.Entities;
 using NikeStore.Models;
 using NikeStore.ViewModels.Admin;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.IO;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 
 namespace NikeStore.Controllers
 {
     public class AdminController : Controller
     {
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        private readonly NikeContext _context;
+
+        public AdminController(IWebHostEnvironment hostingEnvironment, NikeContext context)
+        {
+            _hostingEnvironment = hostingEnvironment;
+            _context = context;
+        }
+
         // GET: Admin
         public ActionResult Index()
         {
@@ -21,12 +25,11 @@ namespace NikeStore.Controllers
         [HttpGet]
         public ActionResult AddModel()
         {
-            if (Session["Admin"] != null)
+            if (HttpContext.Session.GetString("Admin") != null)
             {
                 AddModelVM model = new AddModelVM();
-                NikeContext context = new NikeContext();
 
-                model.Tags = context.Tags.ToList();
+                model.Tags = _context.Tags.ToList();
                 return View(model);
             }
             else
@@ -35,10 +38,10 @@ namespace NikeStore.Controllers
             }
         }
         [HttpPost]
-        public ActionResult AddModel(AddModelVM model)
+        public async Task<ActionResult> AddModel(AddModelVM model)
         {
             var file = model.Image[0];
-            if (file == null || file.ContentLength <= 0)
+            if (file == null || file.Length <= 0)
             {
                 ModelState.AddModelError("", "Please upload file!");
             }
@@ -47,27 +50,23 @@ namespace NikeStore.Controllers
                 return View(model);
             }
 
-            NikeContext context = new NikeContext();
             Shoe item = new Shoe();
 
+            string projectRootPath = _hostingEnvironment.ContentRootPath;
 
-            try
+            string path = Path.Combine(projectRootPath, "Images", Path.GetFileName(file.FileName));
+            using (Stream fileStream = new FileStream(path, FileMode.Create))
             {
-                string path = Path.Combine(Server.MapPath("~/Images/" + Path.GetFileName(file.FileName)));
-                file.SaveAs(path);
-                item.Picture = Path.GetFileName(file.FileName);
+                await file.CopyToAsync(fileStream);
             }
-            catch (Exception)
-            {
+            item.Picture = Path.GetFileName(file.FileName);
 
-                throw;
-            }
             item.Name = model.Name;
             item.Price = model.Price;
             item.Size = model.Size;
-            context.Shoes.Add(item);
+            _context.Shoes.Add(item);
             int id = item.Id;
-            context.SaveChanges();
+            _context.SaveChanges();
 
             foreach (Tag tag in model.Tags)
             {
@@ -76,19 +75,18 @@ namespace NikeStore.Controllers
                     ShoeTag tagShoe = new ShoeTag();
                     tagShoe.Tag_Id = tag.Id;
                     tagShoe.Shoe_Id = item.Id;
-                    context.ShoeTags.Add(tagShoe);
-                    context.SaveChanges();
+                    _context.ShoeTags.Add(tagShoe);
+                    _context.SaveChanges();
                 }
             }
             return RedirectToAction("AddModel", "Admin");
         }
         public ActionResult AddTag(AddModelVM model)
         {
-            NikeContext context = new NikeContext();
             Tag item = new Tag();
             item.Name = model.AddTag;
-            context.Tags.Add(item);
-            context.SaveChanges();
+            _context.Tags.Add(item);
+            _context.SaveChanges();
 
             return RedirectToAction("AddModel", "Admin", model);
         }
@@ -96,13 +94,10 @@ namespace NikeStore.Controllers
         public ActionResult Edit(int? id)
         {
 
-            if (Session["Admin"] != null)
+            if (HttpContext.Session.GetString("Admin") != null)
             {
-                
-            
-                NikeContext context = new NikeContext();
                 Shoe shoe = id == null ? new Shoe() :
-                                   context.Shoes.Where(i => i.Id == id.Value).FirstOrDefault();
+                                   _context.Shoes.Where(i => i.Id == id.Value).FirstOrDefault();
 
                 if (shoe == null)
                     return RedirectToAction("Index", "Home");
@@ -110,11 +105,11 @@ namespace NikeStore.Controllers
                 model.Name = shoe.Name;
                 model.Price = shoe.Price;
                 model.Size = shoe.Size;
-                model.Tags = context.Tags.ToList();
+                model.Tags = _context.Tags.ToList();
                 model.ImageName = shoe.Picture;
                 foreach (Tag tag in model.Tags)
                 {
-                    if (context.ShoeTags.Where(t => t.Shoe_Id == id.Value && t.Tag_Id == tag.Id).FirstOrDefault() != null)
+                    if (_context.ShoeTags.Where(t => t.Shoe_Id == id.Value && t.Tag_Id == tag.Id).FirstOrDefault() != null)
                     {
                         tag.SetTag = true;
                     }
@@ -127,78 +122,71 @@ namespace NikeStore.Controllers
             }
         }
         [HttpPost]
-        public ActionResult Edit(EditVM model)
+        public async Task<ActionResult> Edit(EditVM model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            NikeContext context = new NikeContext();
             Shoe item = new Shoe();
             item.Id = model.Id;
             item.Name = model.Name;
             item.Price = model.Price;
-            item.Size = model.Size;           
+            item.Size = model.Size;
             var file = model.Image[0];
-            if (file != null )
+            if (file != null)
             {
-                if (file.ContentLength > 0)
+                if (file.Length > 0)
                 {
-                    try
+                    string projectRootPath = _hostingEnvironment.ContentRootPath;
+                    string path = Path.Combine(projectRootPath, "Images", Path.GetFileName(file.FileName));
+                    using (Stream fileStream = new FileStream(path, FileMode.Create))
                     {
-                        string path = Path.Combine(Server.MapPath("~/Images/" + Path.GetFileName(file.FileName)));
-                        file.SaveAs(path);
-                        item.Picture = Path.GetFileName(file.FileName);
+                        await file.CopyToAsync(fileStream);
                     }
-                    catch (Exception)
-                    {
 
-                        throw;
-                    }
-                }             
+                    item.Picture = Path.GetFileName(file.FileName);
+
+                }
             }
             else
             {
                 item.Picture = model.ImageName;
             }
-           
-            context.Entry(item).State = EntityState.Modified;
-            context.SaveChanges();
+
+            _context.Entry(item).State = EntityState.Modified;
+            _context.SaveChanges();
 
             foreach (Tag tag in model.Tags)
             {
-                if (context.ShoeTags.Where(i => i.Tag_Id == tag.Id && i.Shoe_Id == model.Id).FirstOrDefault() != null)
+                if (_context.ShoeTags.Where(i => i.Tag_Id == tag.Id && i.Shoe_Id == model.Id).FirstOrDefault() != null)
                 {
-                    ShoeTag shoetag = context.ShoeTags.Where(i => i.Tag_Id == tag.Id && i.Shoe_Id == model.Id).FirstOrDefault();
-                    context.ShoeTags.Remove(shoetag);
-                    context.SaveChanges();
+                    ShoeTag shoetag = _context.ShoeTags.Where(i => i.Tag_Id == tag.Id && i.Shoe_Id == model.Id).FirstOrDefault();
+                    _context.ShoeTags.Remove(shoetag);
+                    _context.SaveChanges();
                 }
-               
+
                 if (tag.SetTag == true)
                 {
                     ShoeTag tagShoe = new ShoeTag();
                     tagShoe.Tag_Id = tag.Id;
                     tagShoe.Shoe_Id = item.Id;
-                    context.ShoeTags.Add(tagShoe);
-                    context.SaveChanges();
+                    _context.ShoeTags.Add(tagShoe);
+                    _context.SaveChanges();
                 }
             }
             return RedirectToAction("Index", "Home");
         }
         public ActionResult Delete(int Id)
         {
-            if (Session["Admin"] != null)
+            if (HttpContext.Session.GetString("Admin") != null)
             {
-
-            
-                NikeContext context = new NikeContext();
-
-                Shoe item = context.Shoes.Where(u => u.Id == Id)
+                Shoe item = _context.Shoes.Where(u => u.Id == Id)
                                          .FirstOrDefault();
 
-                context.Shoes.Remove(item);
-                context.SaveChanges();
+                _context.Shoes.Remove(item);
+                _context.SaveChanges();
 
                 return RedirectToAction("Index", "Home");
             }
@@ -209,17 +197,16 @@ namespace NikeStore.Controllers
         }
         public ActionResult Purchases()
         {
-            if (Session["Admin"] != null)
+            if (HttpContext.Session.GetString("Admin") != null)
             {
-                NikeContext context = new NikeContext();
                 PurchasesVM model = new PurchasesVM();
-                model.orders = context.Orders.ToList();
+                model.orders = _context.Orders.ToList();
                 return View(model);
             }
             else
             {
                 return RedirectToAction("Index", "Home");
-            }    
+            }
         }
     }
 }

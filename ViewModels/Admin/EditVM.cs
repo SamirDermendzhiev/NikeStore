@@ -13,7 +13,7 @@ namespace NikeStore.ViewModels.Admin
         [RegularExpression(@"^[0-9,]+$", ErrorMessage = "Enter comma separated numbers!")]
         public string Size { get; set; }
         public int Id { get; set; }
-        public List<HttpPostedFileBase> Image { get; set; }
+        public List<IFormFile> Image { get; set; }
         public string ImageName { get; set; }
         [Required]
         public float Price { get; set; }
@@ -25,7 +25,7 @@ namespace NikeStore.ViewModels.Admin
 
         public EditVM()
         {
-            Image = new List<HttpPostedFileBase>();
+            Image = new List<IFormFile>();
         }
     }
 }

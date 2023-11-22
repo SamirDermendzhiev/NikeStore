@@ -1,0 +1,62 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Images\121249855_664606114457548_176469350691412506_n.jpg" />
+    <None Include="wwwroot\Images\AirForce1Blue.jpg" />
+    <None Include="wwwroot\Images\AirJordan12.jpg" />
+    <None Include="wwwroot\Images\AirJordan1RetroLow4.jpg" />
+    <None Include="wwwroot\Images\AirJordan2Wing.jpg" />
+    <None Include="wwwroot\Images\AirJordan4From.jpg" />
+    <None Include="wwwroot\Images\AirJOrdan4Knicks.jpg" />
+    <None Include="wwwroot\Images\AirJordan4Retro.jpg" />
+    <None Include="wwwroot\Images\AirJordan5.jpg" />
+    <None Include="wwwroot\Images\AirJordan5Fire.jpg" />
+    <None Include="wwwroot\Images\AirJordanHorizon.jpg" />
+    <None Include="wwwroot\Images\AirJordanKORed.jpg" />
+    <None Include="wwwroot\Images\bear.jpg" />
+    <None Include="wwwroot\Images\bearauction_740x.jpg" />
+    <None Include="wwwroot\Images\FlyknitBlueRed.jpg" />
+    <None Include="wwwroot\Images\ForceFlyknitWhite.jpg" />
+    <None Include="wwwroot\Images\Lich_King.jpg" />
+    <None Include="wwwroot\Images\mount-fuji-hd-qhd-1440x900.jpg" />
+    <None Include="wwwroot\Images\NikeAirFoampositeOne.jpg" />
+    <None Include="wwwroot\Images\NikeAirForce1Flyknit.jpg" />
+    <None Include="wwwroot\Images\NikeAirMax.jpg" />
+    <None Include="wwwroot\Images\NikeCB34.jpg" />
+    <None Include="wwwroot\Images\NikePrestoSafari.jpg" />
+    <None Include="wwwroot\Images\SamFisher.png" />
+    <None Include="wwwroot\Images\School-Bus-with-a-Rocket-Engine.jpg" />
+    <None Include="wwwroot\Images\thumb-1920-790635.jpg" />
+    <None Include="wwwroot\Resources\4176289_thumb.png" />
+    <None Include="wwwroot\Resources\cart.css" />
+    <None Include="wwwroot\Resources\footer.php" />
+    <None Include="wwwroot\Resources\header.php" />
+    <None Include="wwwroot\Resources\Men.css" />
+    <None Include="wwwroot\Resources\Profile.png" />
+    <None Include="wwwroot\Resources\Project.css" />
+    <None Include="wwwroot\Resources\Register.css" />
+    <None Include="wwwroot\Resources\Shoe.css" />
+    <None Include="wwwroot\Resources\Sign.css" />
+    <None Include="wwwroot\Resources\Women.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.25" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.25">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.25" />
+  </ItemGroup>
+
+</Project>

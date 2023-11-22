@@ -1,4 +1,5 @@
-﻿
+﻿@inject IHttpContextAccessor Accessor
+
 @{
     Layout = null;
 }
@@ -68,11 +69,17 @@
                 <ul>
                     <li>
                         <a href="/Home/Cart">
-                            Cart @if (Session["Count"] != null)
-                            {<span>(</span>@Session["Count"]<span>)</span>}<i class="fas fa-shopping-cart"></i>
+                            Cart @if (Accessor.HttpContext.Session.GetString("Count") != null)
+                            {
+                                <span>(</span>
+
+                                @Accessor.HttpContext.Session.GetInt32("Count")
+
+                                <span>)</span>
+                            }<i class="fas fa-shopping-cart"></i>
                         </a>
                     </li>
-                    @if (Session["LoggedUser"] == null)
+                    @if (Accessor.HttpContext.Session.GetString("LoggedUser") == null)
                     {
                         <li><a href="/Home/Register">Register</a></li>
                         <li><a href="/Home/Login">Login</a></li>
@@ -81,7 +88,7 @@
                     {
                         <li><a href="/Home/Logout">Logout</a></li>
                     }
-                    @if (Session["Admin"] != null)
+                    @if (Accessor.HttpContext.Session.GetString("Admin") != null)
                     {
                         <li><a href="/Admin/AddModel">Add model</a></li>
                         <li><a href="/Admin/Purchases">Purchases</a></li>

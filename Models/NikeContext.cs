@@ -1,9 +1,7 @@
-﻿using NikeStore.Entities;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using NikeStore.Entities;
+using System.Reflection.Metadata;
 
 namespace NikeStore.Models
 {
@@ -16,15 +14,15 @@ namespace NikeStore.Models
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItems> OrderItems { get; set; }
 
-        public NikeContext()
-            : base("Server=localhost;database=NikeDB;Trusted_Connection=true")
+        public NikeContext(DbContextOptions<NikeContext> options)
+            : base(options)
         {
-            Users = this.Set<User>();
-            Shoes = this.Set<Shoe>();
-            Tags = this.Set<Tag>();
-            ShoeTags = this.Set<ShoeTag>();
-            Orders = this.Set<Order>();
-            OrderItems = this.Set<OrderItems>();
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<OrderItems>()
+                .HasKey(p => new { p.Order_Id, p.Shoe_Id });
         }
     }
 }

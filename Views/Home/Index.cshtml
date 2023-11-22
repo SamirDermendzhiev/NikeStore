@@ -1,4 +1,5 @@
 ﻿@model NikeStore.ViewModels.Home.IndexVM
+@inject IHttpContextAccessor Accessor
 
 @{
     ViewBag.Title = "Index";
@@ -108,7 +109,7 @@
             </p>
             <br />
             <a href="@Url.Action("AddToCart","Home",Shoe)" id="btn2">BUY</a>
-            @if (Session["Admin"] != null)
+            @if (Accessor.HttpContext.Session.GetString("Admin") != null)
             {
                 <p style=" font-size: 40px; margin-top: 15px;"><a href="/Admin/Edit?id=@Shoe.Id">Edit</a> | <a href="/Admin/Delete?Id=@Shoe.Id" onclick="return confirm('Delete item?')">Delete</a></p>
             }

@@ -1,28 +1,30 @@
-﻿using NikeStore.Entities;
+﻿using Microsoft.AspNetCore.Mvc;
+using NikeStore.Entities;
 using NikeStore.Models;
 using NikeStore.ViewModels.Home;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+using System.Text.Json;
 
 namespace NikeStore.Controllers
 {
     public class HomeController : Controller
-    {  
+    {
+        private readonly NikeContext _context;
+
+        public HomeController(NikeContext context)
+        {
+            _context = context;
+        }
+
         public ActionResult Index(IndexVM model)
         {
-            NikeContext context = new NikeContext();
-            
             model.Page = model.Page > 0 ? model.Page : 1;
             model.ItemsPerPage = model.ItemsPerPage > 0 ? model.ItemsPerPage : 9;
 
-            model.Shoes = context.Shoes.OrderByDescending(i => i.Id).Skip((model.Page - 1) * (model.ItemsPerPage)).Take(model.ItemsPerPage).ToList();
-            model.PageCount=(int)Math.Ceiling(context.Shoes.Count() / (double)model.ItemsPerPage);
+            model.Shoes = _context.Shoes.OrderByDescending(i => i.Id).Skip((model.Page - 1) * (model.ItemsPerPage)).Take(model.ItemsPerPage).ToList();
+            model.PageCount = (int)Math.Ceiling(_context.Shoes.Count() / (double)model.ItemsPerPage);
 
-            model.Tags = context.Tags.ToList();
-            model.Shoetags = context.ShoeTags.ToList();
+            model.Tags = _context.Tags.ToList();
+            model.Shoetags = _context.ShoeTags.ToList();
             return View(model);
         }
         [HttpGet]
@@ -38,24 +40,24 @@ namespace NikeStore.Controllers
             {
                 return View(model);
             }
-            NikeContext context = new NikeContext();
-            User LogedUser = context.Users.Where(u => u.Username == model.Username && u.Password == model.Password).FirstOrDefault();
+
+            User LogedUser = _context.Users.Where(u => u.Username == model.Username && u.Password == model.Password).FirstOrDefault();
             if (LogedUser != null)
             {
-                Session["LoggedUser"] = LogedUser;
-                Session["username"] = LogedUser.Username;
+                HttpContext.Session.SetString("LoggedUser", JsonSerializer.Serialize(LogedUser));
+                HttpContext.Session.SetString("username", LogedUser.Username);
                 if (LogedUser.IsAdmin)
                 {
-                    Session["Admin"] = LogedUser;
+                    HttpContext.Session.SetString("Admin", JsonSerializer.Serialize(LogedUser));
                 }
-                
+
             }
             else
             {
                 return View(model);
             }
 
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
         [HttpGet]
         public ActionResult Register()
@@ -70,7 +72,7 @@ namespace NikeStore.Controllers
             {
                 return View(model);
             }
-            NikeContext context = new NikeContext();
+
             User RegisteredUser = new User();
             RegisteredUser.Username = model.Username;
             RegisteredUser.Password = model.Password;
@@ -81,73 +83,74 @@ namespace NikeStore.Controllers
             RegisteredUser.Email = model.Email;
             RegisteredUser.IsAdmin = model.IsAdmin;
 
-            context.Users.Add(RegisteredUser);
-            context.SaveChanges();
+            _context.Users.Add(RegisteredUser);
+            _context.SaveChanges();
 
-            return RedirectToAction("Login","Home");
+            return RedirectToAction("Login", "Home");
         }
         public ActionResult Logout()
         {
-            Session["LoggedUser"] = null;
-            Session["Admin"] = null;
-            Session["Cart"] = null;
-            Session["Count"] = null;
-            Session["Username"] = null;
-            return RedirectToAction("Login","Home");
+            HttpContext.Session.Remove("LoggedUser");
+            HttpContext.Session.Remove("Admin");
+            HttpContext.Session.Remove("Cart");
+            HttpContext.Session.Remove("Count");
+            HttpContext.Session.Remove("Username");
+            return RedirectToAction("Login", "Home");
         }
         public ActionResult AddToCart(Shoe shoe)
         {
-            if (Session["Cart"]==null)
+            HttpContext.Session.Remove("LoggedUser");
+
+            if (HttpContext.Session.GetString("Cart") == null)
             {
                 List<Shoe> buy = new List<Shoe>();
                 buy.Add(shoe);
-                Session["Cart"] = buy;
-                Session["Count"] = buy.Count;
+                HttpContext.Session.SetString("Cart", JsonSerializer.Serialize(buy));
+                HttpContext.Session.SetInt32("Count", buy.Count);
             }
             else
             {
-                List<Shoe> buy = (List<Shoe>)Session["Cart"];
+                List<Shoe> buy = JsonSerializer.Deserialize<List<Shoe>>(HttpContext.Session.GetString("Cart"));
                 buy.Add(shoe);
-                Session["Cart"] = buy;
-                Session["Count"] = buy.Count;
+                HttpContext.Session.SetString("Cart", JsonSerializer.Serialize(buy));
+                HttpContext.Session.SetInt32("Count", buy.Count);
             }
             return RedirectToAction("Index", "Home");
         }
         public ActionResult Cart()
         {
             CartVM model = new CartVM();
-            model.Items = (List<Shoe>)Session["Cart"];
+            model.Items = JsonSerializer.Deserialize<List<Shoe>>(HttpContext.Session.GetString("Cart"));
             return View(model);
         }
         public ActionResult CashOut()
         {
-            NikeContext context = new NikeContext();
-            User LoggedUser = (User)Session["LoggedUser"];
-            if (Session["LoggedUser"]!=null)
+            var LoggedUser = JsonSerializer.Deserialize<User>(HttpContext.Session.GetString("LoggedUser"));
+            if (LoggedUser != null)
             {
                 Order order = new Order();
                 order.Addres = LoggedUser.Address;
                 order.Client = LoggedUser.Username;
                 order.Date = DateTime.Now;
                 float price = 0;
-                List<Shoe> shoes= (List<Shoe>)Session["Cart"];
+                List<Shoe> shoes = JsonSerializer.Deserialize<List<Shoe>>(HttpContext.Session.GetString("Cart"));
                 foreach (Shoe shoe in shoes)
                 {
                     price += shoe.Price;
                 }
                 order.Price = price;
-                context.Orders.Add(order);
-                context.SaveChanges();          
+                _context.Orders.Add(order);
+                _context.SaveChanges();
                 foreach (Shoe shoe in shoes)
                 {
                     OrderItems items = new OrderItems();
                     items.Order_Id = order.OrderID;
                     items.Shoe_Id = shoe.Id;
-                    context.OrderItems.Add(items);
-                    context.SaveChanges();
+                    _context.OrderItems.Add(items);
+                    _context.SaveChanges();
                 }
-                Session["Cart"] = null;
-                Session["Count"] = null;
+                HttpContext.Session.Remove("Cart");
+                HttpContext.Session.Remove("Count");
                 return RedirectToAction("Index", "Home");
             }
             return RedirectToAction("Cart", "Home");
