@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using NikeStore.Entities;
-using System.Reflection.Metadata;
+using NikeStoreCore.Models;
 
 namespace NikeStore.Models
 {
@@ -23,6 +22,8 @@ namespace NikeStore.Models
         {
             modelBuilder.Entity<OrderItems>()
                 .HasKey(p => new { p.Order_Id, p.Shoe_Id });
+
+            modelBuilder.SeedDatabase();
         }
     }
 }

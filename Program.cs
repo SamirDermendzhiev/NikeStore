@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+//var connectionString = "Server=samitest.database.windows.net;Database=samitest;User Id=demouser;Password=vDt140LA2pWl";
 var connectionString = builder.Configuration.GetConnectionString("SqlServer");
 builder.Services.AddDbContext<NikeContext>(x => x.UseSqlServer(connectionString));
 builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
