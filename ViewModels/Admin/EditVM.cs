@@ -1,9 +1,5 @@
 ﻿using NikeStore.Entities;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace NikeStore.ViewModels.Admin
 {
@@ -21,7 +17,7 @@ namespace NikeStore.ViewModels.Admin
 
 
         public List<Tag> Tags { get; set; }
-        
+
 
         public EditVM()
         {

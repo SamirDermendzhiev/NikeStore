@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace NikeStore.ViewModels.Home
 {
@@ -25,21 +21,20 @@ namespace NikeStore.ViewModels.Home
         public string Email { get; set; }
 
         [Required(ErrorMessage = "This Field is requiered!")]
-        [RegularExpression(@"^[a-zA-Z'\s]*$",ErrorMessage ="Enter valid name!")]
+        [RegularExpression(@"^[a-zA-Z'\s]*$", ErrorMessage = "Enter valid name!")]
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = "This Field is requiered!")]
-        [RegularExpression(@"^[a-zA-Z'\s]*$",ErrorMessage = "Enter valid name!")]
+        [RegularExpression(@"^[a-zA-Z'\s]*$", ErrorMessage = "Enter valid name!")]
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "This Field is requiered!")]
         public string Address { get; set; }
 
         [Required(ErrorMessage = "This Field is requiered!")]
-        [RegularExpression(@"^\(?([0-9]{10})$",ErrorMessage = "Entered phone format is not valid.")]
+        [RegularExpression(@"^\(?([0-9]{10})$", ErrorMessage = "Entered phone format is not valid.")]
         public string PhoneNumber { get; set; }
 
         public bool IsAdmin { get; set; }
-         
     }
 }
